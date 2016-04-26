@@ -1,0 +1,58 @@
+概述
+yarn命令由bin/yarn下面的脚本调用。不带任何参数运行yarn脚本会打印所有命令的描述。
+用法： yarn [--config confdir] COMMAND
+yarn有一个选项解析框架作为运行类用于解析一般的选项。
+命令选项描述--config confdir覆盖缺省配置目录。 默认是 $HADOOP_PREFIX/conf。COMMAND COMMAND_OPTIONS在下面的章节中他们选择不同的命令进行描述。这些命令被分为User Commands和Administration Commands命令。
+用户命令
+对于Hadoop集群，用户命令非常有用。
+jar
+运行一个jar文件，用户可以捆绑yarn代码在一个jar文件，然后使用这个命令执行。
+用法：yarn jar <jar> [mainClass] args...
+应用
+打印应用程序的报告和kill掉的应用程序。
+用法：yarn application <options>
+命令选项描述-applicationId ApplicationId指定一个应用程序ID（application id）-appOwner AppOwner指定一个 程序拥有者（application owner）-containerId ContainerId指定一个容器ID（container id）-nodeAddress NodeAddress指定一个节点地址（ node address）
+节点（node）
+打印节点报告
+用法：yarn node <options>
+命令选项描述-status NodeId指定一个节点ID（node id）-list列出所有节点列表信息
+日志（logs）
+转储容器日志
+        用法：yarn logs <options>
+命令选项描述-applicationId ApplicationId指定一个应用程序id（ application id）-appOwner AppOwner指定一个程序拥有者（ application owner）-containerId ContainerId指定一个容器id（container id）-nodeAddress NodeAddress指定一个节点地址（ node address）
+classpath
+打印需要得到Hadoop的jar和所需要的库的类路径
+用法：yarn classpah
+版本（version）
+打印版本信息
+       用法：yarn version
+
+————————————————
+管理命令
+管理命令对管理员维护Hadoop集群非常有用。
+资源管理（resourceManager）
+启动资源管理（resourceManager）
+用法：yarn resourcemanager
+节点管理（nodemanager）
+启动节点管理（nodemanager）
+用法：yarn nodemanager
+代理服务（proxyserver）
+启动代理服务（proxyserver）
+用法：yarn proxyserver
+rmadmin运行ResourceManager管理客户端
+用法： yarn rmadmin [-refreshQueues] [-refreshNodes] [-refreshUserToGroupsMapping] 
+                      [-refreshSuperUserGroupsConfiguration] [-refreshAdminAcls] 
+                      [-refreshServiceAcl] [-help [cmd]]
+命令选项描述-refreshQueues刷新队列的ACL，状态和调度程序特定的属性。ResourceManager将刷新 mapred-queues的配置文件。-refreshNodes刷新在ResourceManager中的主机信息。-refreshUserToGroupsMappings刷新用户到组的映射。-refreshSuperUserGroupsConfiguration刷新超级用户代理组的映射。-refreshAdminAcls刷新ACL的ResourceManager的管理-refreshServiceAcl刷新服务级授权策略文件。ResoureceManager将重新加载授权策略文件。-help [cmd]显示帮助对于给定的命令或如果没有指定显示所有命令。
+daemonlog
+获取/设置每个守护进程的日志级别。
+用法：yarn daemonlog -getlevel <host:port> <name>
+用法：yarn daemonlog -setlevel <host:port> <name> <level>
+COMMAND_OPTIONSDescription-getlevel host:port name打印运行守护进程的日志级别 host:port.
+该命令在内部连接到 http://host:port/logLevel?log=name-setlevel host:port name level设置守护进程运行时的日志级别 host:port.
+ 该命令在内部连接到http://host:port/logLevel?log=name
+ ---------------------------------------------------------------------
+由于spark日志简单，无法排查运行过程中的任务失败
+通过yarn日志来排查，导出日志到到本地文件系统 
+下面的命令是通过任务编号来导出：
+yarn logs -applicationId application_1461292983931_44640 >test2.log
